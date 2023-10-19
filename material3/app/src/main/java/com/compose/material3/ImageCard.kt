@@ -59,83 +59,106 @@ fun ImageCard(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.padding(start = 2.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            PostMetaSection(title, description)
+            PostFlowRowSection()
+        }
+    }
+}
+
+@Composable
+private fun PostMetaSection(title: String, description: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.tertiary,
+        modifier = Modifier.padding(start = 2.dp)
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = null,
+            modifier = Modifier.padding(end = 2.dp),
+            tint = MaterialTheme.colorScheme.primary
+        )
+        Text(text = description, style = MaterialTheme.typography.bodyMedium)
+    }
+    Spacer(modifier = Modifier.height(8.dp))
+}
+
+@Composable
+@OptIn(ExperimentalLayoutApi::class)
+private fun PostFlowRowSection() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        AssistChip(
+            onClick = {},
+            colors = AssistChipDefaults.assistChipColors(
+                leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Star,
+                    imageVector = Icons.Outlined.Star,
                     contentDescription = null,
-                    modifier = Modifier.padding(end = 2.dp),
+                    tint = Color.Cyan
+                )
+            },
+            label = {
+                Text(text = "Bookmark", color = Color.Cyan)
+            }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        AssistChip(
+            onClick = {},
+            colors = AssistChipDefaults.assistChipColors(
+                leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Done,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
-                Text(text = description, style = MaterialTheme.typography.bodyMedium)
+            },
+            label = {
+                Text(text = "Like", color = MaterialTheme.colorScheme.primary)
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            FlowRow(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                AssistChip(
-                    onClick = {},
-                    colors = AssistChipDefaults.assistChipColors(
-                        leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Outlined.Star, contentDescription = null, tint = Color.Cyan)
-                    },
-                    label = {
-                        Text(text = "Bookmark", color = Color.Cyan)
-                    }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        AssistChip(
+            onClick = {},
+            colors = AssistChipDefaults.assistChipColors(
+                leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                containerColor = MaterialTheme.colorScheme.errorContainer
+            ),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Close,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                AssistChip(
-                    onClick = {},
-                    colors = AssistChipDefaults.assistChipColors(
-                        leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                    ),
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Outlined.Done, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                    },
-                    label = {
-                        Text(text = "Like", color = MaterialTheme.colorScheme.primary)
-                    }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                AssistChip(
-                    onClick = {},
-                    colors = AssistChipDefaults.assistChipColors(
-                        leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    ),
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Outlined.Close, contentDescription = null, tint = MaterialTheme.colorScheme.error)
-                    },
-                    label = {
-                        Text(text = "Dislike", color = MaterialTheme.colorScheme.error)
-                    }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                AssistChip(
-                    onClick = {},
-                    colors = AssistChipDefaults.assistChipColors(
-                        leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ),
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Outlined.Share, contentDescription = null)
-                    },
-                    label = {
-                        Text(text = "Share")
-                    }
-                )
+            },
+            label = {
+                Text(text = "Dislike", color = MaterialTheme.colorScheme.error)
             }
-        }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        AssistChip(
+            onClick = {},
+            colors = AssistChipDefaults.assistChipColors(
+                leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Share, contentDescription = null)
+            },
+            label = {
+                Text(text = "Share")
+            }
+        )
     }
 }
