@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     ) { values ->
                         LazyColumn(contentPadding = values) {
                             items(20) {
-                                ImageCard(title = "#${Random.nextInt(1, 500)}", description = "${Random.nextInt(0, 50)} likes", modifier = Modifier.padding(16.dp))
+                                ImageCard(title = "#${Random.nextInt(1, 500)}", description = "${Random.nextInt(0, 50)}", modifier = Modifier.padding(16.dp))
                             }
                         }
                     }

@@ -1,17 +1,22 @@
 package com.compose.material3
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Done
@@ -28,9 +33,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import kotlin.random.Random
 
@@ -45,46 +52,93 @@ fun ImageCard(
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ), shape = MaterialTheme.shapes.large
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = "https://picsum.photos/seed/${Random.nextInt()}/300/200?grayscale"
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .clip(MaterialTheme.shapes.large)
+        Box(
+            Modifier
                 .fillMaxWidth()
-                .aspectRatio(3f / 2f)
-        )
-
-        Column(
-            modifier = Modifier.padding(16.dp)
+                .height(500.dp)
         ) {
-            PostMetaSection(title, description)
-            PostFlowRowSection()
+            Image(
+                painter = rememberAsyncImagePainter(
+                    model = "https://picsum.photos/seed/${Random.nextInt()}/400/500"
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.large)
+                    .fillMaxWidth()
+                    .aspectRatio(3f / 4f)
+            )
+
+            ForcedGradient()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                PostMetaSection(title, description)
+                PostFlowRowSection()
+            }
         }
     }
 }
 
 @Composable
-private fun PostMetaSection(title: String, description: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.tertiary,
-        modifier = Modifier.padding(start = 2.dp)
+private fun ForcedGradient() {
+    val colorStops = arrayOf(
+        0.0f to Color.Black.copy(alpha = 0.8f),
+        0.15f to Color.Black.copy(alpha = 0.4f),
+        0.2f to Color.Black.copy(alpha = 0.2f),
+        0.5f to Color.Black.copy(alpha = 0f),
+        0.7f to Color.Black.copy(alpha = 0f),
+        0.8f to Color.Black.copy(alpha = 0.6f),
+        1f to Color.Black.copy(alpha = 0.7f)
     )
-    Spacer(modifier = Modifier.height(8.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(
+                Brush.verticalGradient(
+                    colorStops = colorStops
+                )
+            ),
+        contentAlignment = Alignment.TopCenter
+    ) {
+
+    }
+}
+
+@Composable
+private fun PostMetaSection(title: String, description: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.Default.Star,
-            contentDescription = null,
-            modifier = Modifier.padding(end = 2.dp),
-            tint = MaterialTheme.colorScheme.primary
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            fontSize = 28.sp,
+            color = Color.Yellow,
+            modifier = Modifier
+                .padding(start = 2.dp)
+                .weight(0.9f)
         )
-        Text(text = description, style = MaterialTheme.typography.bodyMedium)
+        Icon(
+            imageVector = Icons.Default.Favorite,
+            contentDescription = null,
+            modifier = Modifier
+                .padding(end = 2.dp)
+                .weight(0.1f),
+            tint = Color.Red
+        )
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Red,
+        )
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
@@ -98,7 +152,8 @@ private fun PostFlowRowSection() {
         AssistChip(
             onClick = {},
             colors = AssistChipDefaults.assistChipColors(
-                leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                containerColor = Color.Black
             ),
             leadingIcon = {
                 Icon(
@@ -152,12 +207,17 @@ private fun PostFlowRowSection() {
             onClick = {},
             colors = AssistChipDefaults.assistChipColors(
                 leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                containerColor = Color.Black
             ),
             leadingIcon = {
-                Icon(imageVector = Icons.Outlined.Share, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Outlined.Share,
+                    contentDescription = null,
+                    tint = Color.Cyan
+                )
             },
             label = {
-                Text(text = "Share")
+                Text(text = "Share", color = Color.Cyan)
             }
         )
     }
