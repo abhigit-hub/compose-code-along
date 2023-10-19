@@ -20,6 +20,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.compose.material3.ui.theme.Material3Theme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     ) { values ->
                         LazyColumn(contentPadding = values) {
                             items(20) {
-                                ImageCard(title = "AB", description = "CD", modifier = Modifier.padding(16.dp))
+                                ImageCard(title = "#${Random.nextInt(1, 500)}", description = "${Random.nextInt(0, 50)} likes", modifier = Modifier.padding(16.dp))
                             }
                         }
                     }
