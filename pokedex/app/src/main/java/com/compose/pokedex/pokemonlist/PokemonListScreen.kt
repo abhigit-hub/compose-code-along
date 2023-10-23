@@ -1,4 +1,4 @@
-package com.compose.pokedex.ui
+package com.compose.pokedex.pokemonlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -52,15 +51,15 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.compose.pokedex.R
 import com.compose.pokedex.data.models.PokedexListEntry
-import com.compose.pokedex.pokemonlist.PokemonListViewModel
 
 @Composable
 fun PokemonListScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: PokemonListViewModel = hiltViewModel()
 ) {
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
@@ -77,7 +76,7 @@ fun PokemonListScreen(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-
+                viewModel.searchPokemonList(it)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -96,10 +95,6 @@ fun SearchBar(
         mutableStateOf("")
     }
 
-    var isHintDisplayed by remember {
-        mutableStateOf(hint != "")
-    }
-
     Box(modifier = modifier) {
         BasicTextField(
             value = text,
@@ -115,12 +110,9 @@ fun SearchBar(
                 .shadow(5.dp, CircleShape)
                 .background(Color.White, CircleShape)
                 .padding(horizontal = 20.dp, vertical = 12.dp)
-                .onFocusChanged {
-                    isHintDisplayed = !it.isFocused
-                }
         )
 
-        if (isHintDisplayed) {
+        if (text.isEmpty()) {
             Text(
                 text = hint,
                 color = Color.LightGray,
@@ -140,7 +132,8 @@ fun PokemonList(
     val endReached by remember { viewModel.endReached }
     val loadError by remember { viewModel.loadError }
     val isLoading by remember { viewModel.isLoading }
-    
+    val isSearching by remember { viewModel.isSearching }
+
     LazyColumn(
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -149,7 +142,7 @@ fun PokemonList(
             else pokemonList.size / 2 + 1
         
         items(itemCount) {
-            if (it >= itemCount - 1 && !endReached && !isLoading) {
+            if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaginated()
             }
             PokedexRow(rowIndex = it, entries = pokemonList, navController = navController)
