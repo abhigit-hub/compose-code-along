@@ -4,7 +4,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.2'
 }
 
 android {
@@ -13,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.compose.stockmarket"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -103,10 +102,6 @@ dependencies {
 
     //Accompanist - Flow Layout
     implementation 'com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha'
-
-    //Compose Nav Destinations
-    implementation 'io.github.raamcosta.compose-destinations:core:1.1.2-beta'
-    ksp 'io.github.raamcosta.compose-destinations:ksp:1.1.2-beta'
 
     //Room
     implementation 'androidx.room:room-runtime:2.6.0'
